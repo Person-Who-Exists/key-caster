@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="key-caster:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/key_caster_jar</output-path>
+    <root id="archive" name="key-caster.jar">
+      <element id="module-output" name="key-caster" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/2.0.0/kotlin-stdlib-2.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/kwhat/jnativehook/2.2.1/jnativehook-2.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/13.0/annotations-13.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
