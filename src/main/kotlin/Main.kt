@@ -38,6 +38,47 @@ fun List<Boolean>.isAllFalse(): Boolean {
 	}
 	return true
 }
+
+val shift_replacements = mapOf(
+	"`" to "~",
+	"1" to "!",
+	"2" to "@",
+	"3" to "#",
+	"4" to "$",
+	"5" to "%",
+	"6"  to "^",
+	"7" to "&",
+	"8" to "*",
+	"9" to "(",
+	"0" to ")",
+	"-" to "_",
+	"=" to "+",
+	"\\" to "|",
+	";" to ":",
+	"'" to '"',
+	"," to "<",
+	"." to ">",
+	"/" to "?"
+)
+
+val replacements = mapOf(
+	"Comma" to ",",
+	"Period" to ".",
+	"Slash" to "/",
+	"Semicolon" to ";",
+	"Quote" to "'",
+	"Open Bracket" to "{",
+	"Close Bracket" to "}",
+	"Back Slash" to "\\",
+	"Minus" to "-",
+	"Equals" to "=",
+	"Back Quote" to "`",
+
+	"Space" to "⎵",
+	"Enter" to "↵",
+	"Backspace" to " ⟵ "
+)
+
 // Parses key lists and produces a string for the window to display
 fun genStringFromKeys(modkeys: MutableList<Boolean>, keys: MutableList<String>): String {
 
@@ -72,15 +113,6 @@ fun genStringFromKeys(modkeys: MutableList<Boolean>, keys: MutableList<String>):
 			else {
 				finalString += " + $value + "
 			}
-		}
-		else if (value == "Space") {
-			finalString += "⎵"
-		}
-		else if (value == "Enter") {
-			finalString += "↵"
-		}
-		else if (value == "Backspace") {
-			finalString += " ⟵ "
 		}
 		else {
 			finalString += value
@@ -162,7 +194,7 @@ fun main() {
 			}
 
 			override fun nativeKeyPressed(event: NativeKeyEvent?) {
-				val keyText = NativeKeyEvent.getKeyText(event?.keyCode ?: 0)
+				var keyText = NativeKeyEvent.getKeyText(event?.keyCode ?: 0)
 				println("User pressed $keyText")
 				if (keyText in listOf("¥", "Ctrl", "Shift", "Alt")) {
 					when(keyText) {
@@ -181,8 +213,17 @@ fun main() {
 					}
 				}
 				else {
+					if (replacements.containsKey(keyText)) {
+						keyText = replacements[keyText]
+					}
+
+					if (modKeys[2] && shift_replacements.containsKey(keyText)) {
+						keyText = shift_replacements[keyText].toString()
+					}
+
 					keys += keyText
 				}
+
 				val generatedString: String = genStringFromKeys(modKeys, keys)
 				println("Generated string: $generatedString")
 				keyDisplay.text = generatedString
